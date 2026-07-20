@@ -1,0 +1,1 @@
+"""ExtractAI backend application package."""

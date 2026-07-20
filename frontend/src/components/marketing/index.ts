@@ -1,0 +1,12 @@
+export { MarketingNav } from "./marketing-nav";
+export { MarketingHero } from "./marketing-hero";
+export { MarketingDemo } from "./marketing-demo";
+export { MarketingFeatures } from "./marketing-features";
+export { MarketingSupported } from "./marketing-supported";
+export { MarketingHow } from "./marketing-how";
+export { MarketingPricing } from "./marketing-pricing";
+export { MarketingCompare } from "./marketing-compare";
+export { MarketingTestimonials } from "./marketing-testimonials";
+export { MarketingFaq } from "./marketing-faq";
+export { MarketingFooter } from "./marketing-footer";
+export { MarketingConsole } from "./marketing-console";

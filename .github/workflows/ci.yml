@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+
+jobs:
+  backend-tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: backend/requirements.txt
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pytest
+      - name: Unit tests
+        env:
+          APP_ENV: test
+          USE_CELERY: "false"
+          JWT_SECRET_KEY: ci-test-secret-not-for-production
+          DATABASE_URL: postgresql+asyncpg://extractai:extractai@localhost:5432/extractai
+          DATABASE_URL_SYNC: postgresql+psycopg://extractai:extractai@localhost:5432/extractai
+          REDIS_URL: redis://localhost:6379/0
+        run: PYTHONPATH=. python -m pytest tests/unit -q --tb=short
+
+  docker-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build API image
+        run: docker build -t extractai-api:ci ./backend
+      - name: Build frontend image
+        run: docker build -t extractai-web:ci --build-arg NEXT_PUBLIC_API_URL=http://localhost:8100 ./frontend

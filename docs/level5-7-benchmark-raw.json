@@ -1,0 +1,812 @@
+{
+  "generated_at": "2026-07-20T13:37:35.322575+00:00",
+  "suite": "level_5_7_hard_sites",
+  "targets": [
+    {
+      "id": "booking",
+      "name": "Booking.com",
+      "url": "https://www.booking.com/",
+      "capabilities": [
+        "multi_step_forms",
+        "filters",
+        "pagination",
+        "navigation"
+      ],
+      "inputs": null,
+      "crawl": {
+        "follow_pagination": true,
+        "max_pages": 2
+      },
+      "started_at": "2026-07-20T13:35:00.436998+00:00",
+      "ok": true,
+      "pipeline_success": true,
+      "error_code": null,
+      "error_message": null,
+      "elapsed_ms": 8468.0,
+      "strategy": "dynamic_browser",
+      "fetch_engine": "playwright",
+      "title": "Booking.com | Official site | The best hotels, flights, car rentals & accommodations",
+      "counts": {
+        "title": 1,
+        "meta": 2,
+        "headings": 94,
+        "paragraphs": 6,
+        "images": 83,
+        "links": 270,
+        "tables": 0,
+        "emails": 6,
+        "phones": 0,
+        "json_ld": 0,
+        "open_graph": 7,
+        "twitter": 11,
+        "canonical_url": 1,
+        "language": 1,
+        "forms": 1,
+        "buttons": 24,
+        "downloads": 0,
+        "lists": 13,
+        "products": 0,
+        "prices": 50,
+        "favicon": 1,
+        "social_links": 0,
+        "officials": 0,
+        "agent": 0,
+        "pagination": 5
+      },
+      "products_sample": [],
+      "pagination": {
+        "pages_crawled": 1,
+        "page_urls": [
+          "https://www.booking.com/"
+        ],
+        "stopped_reason": "no_next"
+      },
+      "bot": {
+        "cloudflare_challenge": false,
+        "captcha_hint": false,
+        "access_denied": false,
+        "profile_bot": "none",
+        "profile_cloudflare": false
+      },
+      "grade": "partial",
+      "html_bytes": 756612
+    },
+    {
+      "id": "airbnb",
+      "name": "Airbnb",
+      "url": "https://www.airbnb.com/",
+      "capabilities": [
+        "js_rendering",
+        "filters",
+        "lazy_load",
+        "infinite_scroll"
+      ],
+      "inputs": null,
+      "crawl": {
+        "follow_pagination": false
+      },
+      "started_at": "2026-07-20T13:35:08.909370+00:00",
+      "ok": true,
+      "pipeline_success": true,
+      "error_code": null,
+      "error_message": null,
+      "elapsed_ms": 6641.1,
+      "strategy": "json_ld",
+      "fetch_engine": "requests_http",
+      "title": "Airbnb: Holiday Rentals, Cabins, Beach Houses, Unique Homes & Experiences",
+      "counts": {
+        "title": 1,
+        "meta": 2,
+        "headings": 10,
+        "paragraphs": 0,
+        "images": 33,
+        "links": 172,
+        "tables": 0,
+        "emails": 0,
+        "phones": 0,
+        "json_ld": 0,
+        "open_graph": 7,
+        "twitter": 15,
+        "canonical_url": 1,
+        "language": 1,
+        "forms": 1,
+        "buttons": 13,
+        "downloads": 0,
+        "lists": 13,
+        "products": 0,
+        "prices": 50,
+        "favicon": 1,
+        "social_links": 3,
+        "officials": 0,
+        "agent": 0,
+        "pagination": 5
+      },
+      "products_sample": [],
+      "pagination": {
+        "pages_crawled": 1,
+        "page_urls": [
+          "https://www.airbnb.com/"
+        ],
+        "stopped_reason": "disabled"
+      },
+      "bot": {
+        "cloudflare_challenge": false,
+        "captcha_hint": true,
+        "access_denied": true,
+        "profile_bot": "captcha",
+        "profile_cloudflare": false
+      },
+      "grade": "blocked",
+      "html_bytes": 1174711
+    },
+    {
+      "id": "amazon",
+      "name": "Amazon.com",
+      "url": "https://www.amazon.com/s?k=wireless+headphones",
+      "capabilities": [
+        "search",
+        "filters",
+        "pagination",
+        "structured_data"
+      ],
+      "inputs": null,
+      "crawl": {
+        "follow_pagination": true,
+        "max_pages": 2
+      },
+      "started_at": "2026-07-20T13:35:15.555672+00:00",
+      "ok": true,
+      "pipeline_success": true,
+      "error_code": null,
+      "error_message": null,
+      "elapsed_ms": 26394.8,
+      "strategy": "static_html",
+      "fetch_engine": "requests_http",
+      "title": "Amazon.com : wireless headphones",
+      "counts": {
+        "title": 1,
+        "meta": 2,
+        "headings": 111,
+        "paragraphs": 0,
+        "images": 36,
+        "links": 803,
+        "tables": 2,
+        "emails": 0,
+        "phones": 3,
+        "json_ld": 0,
+        "open_graph": 0,
+        "twitter": 0,
+        "language": 1,
+        "forms": 13,
+        "buttons": 16,
+        "downloads": 0,
+        "lists": 9,
+        "products": 0,
+        "prices": 62,
+        "favicon": 1,
+        "social_links": 0,
+        "officials": 0,
+        "agent": 0,
+        "pagination": 5
+      },
+      "products_sample": [],
+      "pagination": {
+        "pages_crawled": 2,
+        "page_urls": [
+          "https://www.amazon.com/s?k=wireless+headphones",
+          "https://www.amazon.com/s?k=wireless+headphones&page=2&xpid=GDA7PggafVBia&qid=1784554539&ref=sr_pg_1"
+        ],
+        "stopped_reason": "max_pages"
+      },
+      "bot": {
+        "cloudflare_challenge": false,
+        "captcha_hint": false,
+        "access_denied": false,
+        "profile_bot": "none",
+        "profile_cloudflare": false
+      },
+      "grade": "partial",
+      "html_bytes": 1011860
+    },
+    {
+      "id": "amazon_search",
+      "name": "Amazon.com (agent search)",
+      "url": "https://www.amazon.com/",
+      "capabilities": [
+        "search_automation"
+      ],
+      "inputs": {
+        "query": "wireless headphones"
+      },
+      "crawl": {
+        "follow_pagination": false
+      },
+      "started_at": "2026-07-20T13:35:41.956665+00:00",
+      "ok": true,
+      "pipeline_success": true,
+      "error_code": null,
+      "error_message": null,
+      "elapsed_ms": 61725.4,
+      "strategy": "browser_agent",
+      "fetch_engine": "browser_agent",
+      "title": "Amazon.com: BERIBES Bluetooth Headphones Over Ear, 65H Playtime and 6 EQ Music Modes Wireless Headphones with Microphone, HiFi Stereo Foldable Lightweight Headset, Deep Bass for Home Office Cellphone PC Ect. : Electronics",
+      "counts": {
+        "title": 1,
+        "meta": 2,
+        "headings": 100,
+        "paragraphs": 48,
+        "images": 48,
+        "links": 214,
+        "tables": 13,
+        "emails": 0,
+        "phones": 3,
+        "json_ld": 0,
+        "open_graph": 0,
+        "twitter": 0,
+        "canonical_url": 1,
+        "language": 1,
+        "forms": 8,
+        "buttons": 43,
+        "downloads": 0,
+        "lists": 35,
+        "products": 0,
+        "prices": 47,
+        "favicon": 1,
+        "social_links": 0,
+        "officials": 0,
+        "agent": 10,
+        "pagination": 5
+      },
+      "products_sample": [],
+      "pagination": {
+        "pages_crawled": 1,
+        "page_urls": [
+          "https://www.amazon.com/BERIBES-Bluetooth-Headphones-Microphone-Lightweight/dp/B09LYF2ST7/ref=sr_1_2?dib=eyJ2IjoiMSJ9.nkXyqmWCFm5oP0wtcWwZKRONgVpLv7NtFY8r8uc6DFaGXvCRZyOJfvA2YG73zftBGKMWW-UZxxPoibI20IuJngMOPkQciVt7-1yMRXsLq0IvJYQuEGSqMEFi42RxDqGUR1kPxkLaJtKxwa-BtBSM7Kam2-Rtr0xa8U0cV1lJqx0n4yXF_wbhJNMnFt0VjT_VMf2gwcQgNARJ3c11j82xu3IX-j2fbA2dgGAHKnuu2Z4.O0f_45f-o3-c1OYTC1zAsU49jnL6aySwwxx8jhVovDQ&dib_tag=se&keywords=wireless%2Bheadphones&qid=1784554575&sr=8-2&th=1"
+        ],
+        "stopped_reason": "disabled"
+      },
+      "bot": {
+        "cloudflare_challenge": false,
+        "captcha_hint": false,
+        "access_denied": true,
+        "profile_bot": "none",
+        "profile_cloudflare": false
+      },
+      "grade": "blocked",
+      "html_bytes": 2491656
+    },
+    {
+      "id": "expedia",
+      "name": "Expedia",
+      "url": "https://www.expedia.com/",
+      "capabilities": [
+        "multi_step_forms",
+        "navigation"
+      ],
+      "inputs": null,
+      "crawl": {
+        "follow_pagination": false
+      },
+      "started_at": "2026-07-20T13:36:43.697877+00:00",
+      "ok": true,
+      "pipeline_success": true,
+      "error_code": "CAPTCHA",
+      "error_message": "CAPTCHA challenge detected",
+      "elapsed_ms": 6545.6,
+      "strategy": "dynamic_browser",
+      "fetch_engine": "playwright",
+      "title": "Bot or Not?",
+      "counts": {
+        "title": 1,
+        "meta": 2,
+        "headings": 1,
+        "paragraphs": 1,
+        "images": 1,
+        "links": 1,
+        "tables": 0,
+        "emails": 0,
+        "phones": 0,
+        "json_ld": 0,
+        "open_graph": 0,
+        "twitter": 0,
+        "forms": 0,
+        "buttons": 0,
+        "downloads": 0,
+        "lists": 0,
+        "products": 0,
+        "prices": 0,
+        "favicon": 1,
+        "social_links": 0,
+        "officials": 0,
+        "agent": 0,
+        "pagination": 5
+      },
+      "products_sample": [],
+      "pagination": {
+        "pages_crawled": 1,
+        "page_urls": [
+          "https://www.expedia.com/"
+        ],
+        "stopped_reason": "disabled"
+      },
+      "bot": {
+        "cloudflare_challenge": false,
+        "captcha_hint": true,
+        "access_denied": false,
+        "profile_bot": "captcha",
+        "profile_cloudflare": false
+      },
+      "grade": "thin",
+      "html_bytes": 467573
+    },
+    {
+      "id": "nike",
+      "name": "Nike",
+      "url": "https://www.nike.com/w/mens-shoes-nik1zy7ok",
+      "capabilities": [
+        "js_rendering",
+        "filters",
+        "dynamic_ui"
+      ],
+      "inputs": null,
+      "crawl": {
+        "follow_pagination": true,
+        "max_pages": 2
+      },
+      "started_at": "2026-07-20T13:36:50.246143+00:00",
+      "ok": true,
+      "pipeline_success": true,
+      "error_code": null,
+      "error_message": null,
+      "elapsed_ms": 6819.4,
+      "strategy": "metadata",
+      "fetch_engine": "requests_http",
+      "title": "Men's Shoes & Sneakers. Nike.com",
+      "counts": {
+        "title": 1,
+        "meta": 2,
+        "headings": 92,
+        "paragraphs": 7,
+        "images": 25,
+        "links": 380,
+        "tables": 0,
+        "emails": 0,
+        "phones": 0,
+        "json_ld": 0,
+        "open_graph": 6,
+        "twitter": 6,
+        "canonical_url": 1,
+        "language": 1,
+        "forms": 1,
+        "buttons": 87,
+        "downloads": 0,
+        "lists": 39,
+        "products": 0,
+        "prices": 39,
+        "favicon": 1,
+        "social_links": 0,
+        "officials": 0,
+        "agent": 0,
+        "pagination": 5
+      },
+      "products_sample": [],
+      "pagination": {
+        "pages_crawled": 1,
+        "page_urls": [
+          "https://www.nike.com/w/mens-shoes-nik1zy7ok"
+        ],
+        "stopped_reason": "no_next"
+      },
+      "bot": {
+        "cloudflare_challenge": false,
+        "captcha_hint": false,
+        "access_denied": true,
+        "profile_bot": "none",
+        "profile_cloudflare": false
+      },
+      "grade": "blocked",
+      "html_bytes": 1147320
+    },
+    {
+      "id": "tripadvisor",
+      "name": "Tripadvisor",
+      "url": "https://www.tripadvisor.com/Search?q=Paris",
+      "capabilities": [
+        "search",
+        "reviews",
+        "nested_content",
+        "structured_data"
+      ],
+      "inputs": null,
+      "crawl": {
+        "follow_pagination": true,
+        "max_pages": 2
+      },
+      "started_at": "2026-07-20T13:36:57.071500+00:00",
+      "ok": true,
+      "pipeline_success": true,
+      "error_code": "HTTP_403",
+      "error_message": "Access forbidden",
+      "elapsed_ms": 1481.5,
+      "strategy": "metadata",
+      "fetch_engine": "requests_http",
+      "title": "tripadvisor.com",
+      "counts": {
+        "title": 1,
+        "meta": 2,
+        "headings": 0,
+        "paragraphs": 1,
+        "images": 0,
+        "links": 0,
+        "tables": 0,
+        "emails": 0,
+        "phones": 0,
+        "json_ld": 0,
+        "open_graph": 0,
+        "twitter": 0,
+        "language": 1,
+        "forms": 0,
+        "buttons": 0,
+        "downloads": 0,
+        "lists": 0,
+        "products": 0,
+        "prices": 0,
+        "favicon": 1,
+        "social_links": 0,
+        "officials": 0,
+        "agent": 0,
+        "pagination": 5
+      },
+      "products_sample": [],
+      "pagination": {
+        "pages_crawled": 1,
+        "page_urls": [
+          "https://www.tripadvisor.com/Search?q=Paris"
+        ],
+        "stopped_reason": "no_next"
+      },
+      "bot": {
+        "cloudflare_challenge": false,
+        "captcha_hint": true,
+        "access_denied": false,
+        "profile_bot": "captcha",
+        "profile_cloudflare": false
+      },
+      "grade": "thin",
+      "html_bytes": 775
+    },
+    {
+      "id": "imdb",
+      "name": "IMDb",
+      "url": "https://www.imdb.com/find/?q=Inception",
+      "capabilities": [
+        "search",
+        "metadata",
+        "structured_data"
+      ],
+      "inputs": null,
+      "crawl": {
+        "follow_pagination": false
+      },
+      "started_at": "2026-07-20T13:36:58.553066+00:00",
+      "ok": true,
+      "pipeline_success": true,
+      "error_code": null,
+      "error_message": null,
+      "elapsed_ms": 6206.2,
+      "strategy": "dynamic_browser",
+      "fetch_engine": "playwright",
+      "title": "Find - IMDb",
+      "counts": {
+        "title": 1,
+        "meta": 2,
+        "headings": 17,
+        "paragraphs": 1,
+        "images": 11,
+        "links": 107,
+        "tables": 0,
+        "emails": 0,
+        "phones": 1,
+        "json_ld": 0,
+        "open_graph": 10,
+        "twitter": 0,
+        "canonical_url": 1,
+        "language": 1,
+        "forms": 2,
+        "buttons": 12,
+        "downloads": 0,
+        "lists": 20,
+        "products": 0,
+        "prices": 0,
+        "favicon": 1,
+        "social_links": 4,
+        "officials": 0,
+        "agent": 0,
+        "pagination": 5
+      },
+      "products_sample": [],
+      "pagination": {
+        "pages_crawled": 1,
+        "page_urls": [
+          "https://www.imdb.com/find/?q=Inception"
+        ],
+        "stopped_reason": "disabled"
+      },
+      "bot": {
+        "cloudflare_challenge": false,
+        "captcha_hint": false,
+        "access_denied": true,
+        "profile_bot": "none",
+        "profile_cloudflare": false
+      },
+      "grade": "blocked",
+      "html_bytes": 1023130
+    },
+    {
+      "id": "imdb_search",
+      "name": "IMDb (agent search)",
+      "url": "https://www.imdb.com/",
+      "capabilities": [
+        "search_automation"
+      ],
+      "inputs": {
+        "query": "Inception"
+      },
+      "crawl": {
+        "follow_pagination": false
+      },
+      "started_at": "2026-07-20T13:37:04.766115+00:00",
+      "ok": true,
+      "pipeline_success": true,
+      "error_code": null,
+      "error_message": null,
+      "elapsed_ms": 25040.4,
+      "strategy": "browser_agent",
+      "fetch_engine": "browser_agent",
+      "title": "Inception (2010) - IMDb",
+      "counts": {
+        "title": 1,
+        "meta": 2,
+        "headings": 25,
+        "paragraphs": 2,
+        "images": 61,
+        "links": 298,
+        "tables": 0,
+        "emails": 0,
+        "phones": 3,
+        "json_ld": 0,
+        "open_graph": 10,
+        "twitter": 0,
+        "canonical_url": 1,
+        "language": 1,
+        "forms": 2,
+        "buttons": 55,
+        "downloads": 0,
+        "lists": 34,
+        "products": 0,
+        "prices": 5,
+        "favicon": 1,
+        "social_links": 4,
+        "officials": 0,
+        "agent": 10,
+        "pagination": 5
+      },
+      "products_sample": [],
+      "pagination": {
+        "pages_crawled": 1,
+        "page_urls": [
+          "https://www.imdb.com/title/tt1375666/?ref_=fn_t_1"
+        ],
+        "stopped_reason": "disabled"
+      },
+      "bot": {
+        "cloudflare_challenge": false,
+        "captcha_hint": false,
+        "access_denied": true,
+        "profile_bot": "none",
+        "profile_cloudflare": false
+      },
+      "grade": "blocked",
+      "html_bytes": 1984653
+    },
+    {
+      "id": "zara",
+      "name": "Zara",
+      "url": "https://www.zara.com/us/en/",
+      "capabilities": [
+        "js_rendering",
+        "dynamic_loading",
+        "product_variations"
+      ],
+      "inputs": null,
+      "crawl": {
+        "follow_pagination": false
+      },
+      "started_at": "2026-07-20T13:37:29.817525+00:00",
+      "ok": true,
+      "pipeline_success": true,
+      "error_code": "HTTP_403",
+      "error_message": "Access forbidden",
+      "elapsed_ms": 392.4,
+      "strategy": "static_html",
+      "fetch_engine": "requests_http",
+      "title": "Access Denied",
+      "counts": {
+        "title": 1,
+        "meta": 2,
+        "headings": 1,
+        "paragraphs": 2,
+        "images": 0,
+        "links": 0,
+        "tables": 0,
+        "emails": 0,
+        "phones": 1,
+        "json_ld": 0,
+        "open_graph": 0,
+        "twitter": 0,
+        "forms": 0,
+        "buttons": 0,
+        "downloads": 0,
+        "lists": 0,
+        "products": 0,
+        "prices": 0,
+        "favicon": 1,
+        "social_links": 0,
+        "officials": 0,
+        "agent": 0,
+        "pagination": 5
+      },
+      "products_sample": [],
+      "pagination": {
+        "pages_crawled": 1,
+        "page_urls": [
+          "https://www.zara.com/us/en/"
+        ],
+        "stopped_reason": "disabled"
+      },
+      "bot": {
+        "cloudflare_challenge": false,
+        "captcha_hint": false,
+        "access_denied": true,
+        "profile_bot": "waf_unknown",
+        "profile_cloudflare": false
+      },
+      "grade": "blocked",
+      "html_bytes": 378
+    },
+    {
+      "id": "figma",
+      "name": "Figma Community",
+      "url": "https://www.figma.com/community",
+      "capabilities": [
+        "infinite_scroll",
+        "js_rendering",
+        "cards",
+        "filters"
+      ],
+      "inputs": null,
+      "crawl": {
+        "follow_pagination": false
+      },
+      "started_at": "2026-07-20T13:37:30.209964+00:00",
+      "ok": true,
+      "pipeline_success": true,
+      "error_code": "HTTP_403",
+      "error_message": "Access forbidden",
+      "elapsed_ms": 961.7,
+      "strategy": "static_html",
+      "fetch_engine": "requests_http",
+      "title": "ERROR: The request could not be satisfied",
+      "counts": {
+        "title": 1,
+        "meta": 2,
+        "headings": 2,
+        "paragraphs": 0,
+        "images": 0,
+        "links": 0,
+        "tables": 0,
+        "emails": 0,
+        "phones": 0,
+        "json_ld": 0,
+        "open_graph": 0,
+        "twitter": 0,
+        "forms": 0,
+        "buttons": 0,
+        "downloads": 0,
+        "lists": 0,
+        "products": 0,
+        "prices": 0,
+        "favicon": 1,
+        "social_links": 0,
+        "officials": 0,
+        "agent": 0,
+        "pagination": 5
+      },
+      "products_sample": [],
+      "pagination": {
+        "pages_crawled": 1,
+        "page_urls": [
+          "https://www.figma.com/community"
+        ],
+        "stopped_reason": "disabled"
+      },
+      "bot": {
+        "cloudflare_challenge": false,
+        "captcha_hint": false,
+        "access_denied": true,
+        "profile_bot": "waf_unknown",
+        "profile_cloudflare": false
+      },
+      "grade": "blocked",
+      "html_bytes": 919
+    },
+    {
+      "id": "walmart",
+      "name": "Walmart",
+      "url": "https://www.walmart.com/search?q=laptop",
+      "capabilities": [
+        "ecommerce",
+        "filters",
+        "pagination",
+        "structured_data"
+      ],
+      "inputs": null,
+      "crawl": {
+        "follow_pagination": true,
+        "max_pages": 2
+      },
+      "started_at": "2026-07-20T13:37:31.171738+00:00",
+      "ok": true,
+      "pipeline_success": true,
+      "error_code": "CAPTCHA",
+      "error_message": "CAPTCHA challenge detected",
+      "elapsed_ms": 4150.7,
+      "strategy": "dynamic_browser",
+      "fetch_engine": "playwright",
+      "title": "Robot or human?",
+      "counts": {
+        "title": 1,
+        "meta": 2,
+        "headings": 1,
+        "paragraphs": 2,
+        "images": 0,
+        "links": 5,
+        "tables": 0,
+        "emails": 0,
+        "phones": 0,
+        "json_ld": 0,
+        "open_graph": 0,
+        "twitter": 0,
+        "language": 1,
+        "forms": 0,
+        "buttons": 0,
+        "downloads": 0,
+        "lists": 0,
+        "products": 0,
+        "prices": 0,
+        "favicon": 1,
+        "social_links": 0,
+        "officials": 0,
+        "agent": 0,
+        "pagination": 5
+      },
+      "products_sample": [],
+      "pagination": {
+        "pages_crawled": 1,
+        "page_urls": [
+          "https://www.walmart.com/blocked?url=L3NlYXJjaD9xPWxhcHRvcA==&uuid=28525be0-8440-11f1-a8cd-91b6d4f5e1b5&vid=&g=b"
+        ],
+        "stopped_reason": "no_next"
+      },
+      "bot": {
+        "cloudflare_challenge": false,
+        "captcha_hint": true,
+        "access_denied": false,
+        "profile_bot": "captcha",
+        "profile_cloudflare": false
+      },
+      "grade": "thin",
+      "html_bytes": 16764
+    }
+  ]
+}
