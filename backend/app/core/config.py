@@ -94,15 +94,15 @@ class Settings(BaseSettings):
     fetch_cascade_retry: bool = True
 
     # Transactional email (verification)
-    # Prefer Gmail SMTP app password when set — avoids Brevo *.brevosend.com Gmail blocks.
-    smtp_host: str = "smtp.gmail.com"
+    # Prefer SMTP_* (Brevo relay) — Render cannot reach smtp.gmail.com (errno 101).
+    smtp_host: str = "smtp-relay.brevo.com"
     smtp_port: int = 587
-    smtp_user: str | None = None  # e.g. extractai5@gmail.com
-    smtp_password: str | None = None  # Gmail App Password (16 chars, no spaces)
+    smtp_user: str | None = None  # Brevo SMTP login (account email)
+    smtp_password: str | None = None  # Brevo SMTP key (xsmtpsib-…)
     mail_from_email: str | None = None  # defaults to smtp_user / brevo_sender_email
     mail_from_name: str = "ExtractAI"
 
-    # Brevo (fallback when SMTP_PASSWORD is empty)
+    # Brevo REST fallback (used when SMTP_PASSWORD is empty)
     brevo_api_key: str | None = None
     brevo_sender_email: str | None = None
     brevo_sender_name: str = "ExtractAI"

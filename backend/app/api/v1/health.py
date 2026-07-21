@@ -30,9 +30,12 @@ async def health_mail(settings: AppSettings) -> dict:
         "enabled": mail.enabled,
         "transport": mail._transport(),
         "sender_configured": bool(mail._sender_email()),
-        "gmail_smtp_configured": mail._gmail_ready(),
+        "smtp_configured": mail._smtp_ready(),
+        "gmail_smtp_configured": mail._smtp_ready(),  # back-compat
         "brevo_configured": bool((settings.brevo_api_key or "").strip()),
         "frontend_public_url": settings.frontend_public_url,
+        "smtp_host": settings.smtp_host,
+        "smtp_port": settings.smtp_port,
     }
 
 

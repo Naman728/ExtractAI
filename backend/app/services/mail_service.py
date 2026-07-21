@@ -1,4 +1,4 @@
-"""Transactional email via Gmail SMTP (preferred) or Brevo REST/SMTP fallback."""
+"""Transactional email via Brevo SMTP (preferred) or Brevo REST fallback."""
 
 from __future__ import annotations
 
@@ -25,14 +25,18 @@ class MailService:
 
     @property
     def enabled(self) -> bool:
-        if self._gmail_ready():
+        if self._smtp_ready():
             return True
         return bool(self._settings.brevo_api_key and self._sender_email())
 
-    def _gmail_ready(self) -> bool:
+    def _smtp_ready(self) -> bool:
         user = (self._settings.smtp_user or self._settings.brevo_sender_email or "").strip()
         password = (self._settings.smtp_password or "").replace(" ", "").strip()
         return bool(user and password)
+
+    # Back-compat alias for health probe / older callers
+    def _gmail_ready(self) -> bool:
+        return self._smtp_ready()
 
     def _sender_email(self) -> str:
         return (
@@ -49,8 +53,8 @@ class MailService:
         )
 
     def _transport(self) -> str:
-        if self._gmail_ready():
-            return "gmail_smtp"
+        if self._smtp_ready():
+            return "smtp"
         key = (self._settings.brevo_api_key or "").strip()
         if self._settings.brevo_use_smtp or key.startswith("xsmtpsib-"):
             return "brevo_smtp"
@@ -78,9 +82,9 @@ class MailService:
         text = text_body or "Please view this email in an HTML-capable client."
 
         try:
-            if transport == "gmail_smtp":
+            if transport == "smtp":
                 ok = await asyncio.to_thread(
-                    self._send_gmail_smtp, to_email, subject, html_body, text
+                    self._send_smtp, to_email, subject, html_body, text
                 )
             elif transport == "brevo_smtp":
                 ok = await asyncio.to_thread(
@@ -155,13 +159,19 @@ class MailService:
         msg.attach(MIMEText(html_body, "html", "utf-8"))
         return msg
 
-    def _send_gmail_smtp(
+    def _send_smtp(
         self, to_email: str, subject: str, html_body: str, text_body: str
     ) -> bool:
+        """Primary SMTP path (Brevo relay via SMTP_* env). STARTTLS on 587."""
         settings = self._settings
-        login = (settings.smtp_user or settings.brevo_sender_email or "").strip()
+        login = (
+            settings.smtp_user
+            or settings.brevo_smtp_login
+            or settings.brevo_sender_email
+            or ""
+        ).strip()
         password = (settings.smtp_password or "").replace(" ", "").strip()
-        host = (settings.smtp_host or "smtp.gmail.com").strip()
+        host = (settings.smtp_host or "smtp-relay.brevo.com").strip()
         port = int(settings.smtp_port or 587)
         sender_email = self._sender_email()
         msg = self._build_message(to_email, subject, html_body, text_body)
@@ -172,7 +182,7 @@ class MailService:
             smtp.ehlo()
             smtp.login(login, password)
             smtp.sendmail(sender_email, [to_email], msg.as_string())
-        logger.info("mail.gmail_smtp_ok", host=host, port=port, from_email=sender_email)
+        logger.info("mail.smtp_ok", host=host, port=port, from_email=sender_email)
         return True
 
     def _send_brevo_smtp(
