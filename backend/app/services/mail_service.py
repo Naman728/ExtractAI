@@ -1,4 +1,4 @@
-"""Transactional email via Brevo (REST API preferred; SMTP fallback)."""
+"""Transactional email via Gmail SMTP (preferred) or Brevo REST/SMTP fallback."""
 
 from __future__ import annotations
 
@@ -25,14 +25,38 @@ class MailService:
 
     @property
     def enabled(self) -> bool:
-        return bool(self._settings.brevo_api_key and self._settings.brevo_sender_email)
+        if self._gmail_ready():
+            return True
+        return bool(self._settings.brevo_api_key and self._sender_email())
+
+    def _gmail_ready(self) -> bool:
+        user = (self._settings.smtp_user or self._settings.brevo_sender_email or "").strip()
+        password = (self._settings.smtp_password or "").replace(" ", "").strip()
+        return bool(user and password)
+
+    def _sender_email(self) -> str:
+        return (
+            (self._settings.mail_from_email or "").strip()
+            or (self._settings.smtp_user or "").strip()
+            or (self._settings.brevo_sender_email or "").strip()
+        )
+
+    def _sender_name(self) -> str:
+        return (
+            (self._settings.mail_from_name or "").strip()
+            or (self._settings.brevo_sender_name or "").strip()
+            or "ExtractAI"
+        )
 
     def _transport(self) -> str:
+        if self._gmail_ready():
+            return "gmail_smtp"
         key = (self._settings.brevo_api_key or "").strip()
         if self._settings.brevo_use_smtp or key.startswith("xsmtpsib-"):
-            return "smtp"
-        # xkeysib-… and other Brevo v3 API keys use REST
-        return "rest"
+            return "brevo_smtp"
+        if key:
+            return "brevo_rest"
+        return "none"
 
     async def send_email(
         self,
@@ -42,23 +66,28 @@ class MailService:
         html_body: str,
         text_body: str | None = None,
     ) -> bool:
-        if not self._settings.brevo_api_key:
-            logger.warning("mail.skipped_no_api_key")
-            return False
-        if not self._settings.brevo_sender_email:
+        if not self._sender_email():
             logger.warning("mail.skipped_no_sender_email")
             return False
 
-        text = text_body or "Please view this email in an HTML-capable client."
         transport = self._transport()
+        if transport == "none":
+            logger.warning("mail.skipped_no_credentials")
+            return False
+
+        text = text_body or "Please view this email in an HTML-capable client."
 
         try:
-            if transport == "smtp":
+            if transport == "gmail_smtp":
                 ok = await asyncio.to_thread(
-                    self._send_smtp, to_email, subject, html_body, text
+                    self._send_gmail_smtp, to_email, subject, html_body, text
+                )
+            elif transport == "brevo_smtp":
+                ok = await asyncio.to_thread(
+                    self._send_brevo_smtp, to_email, subject, html_body, text
                 )
             else:
-                ok = await self._send_rest(to_email, subject, html_body, text)
+                ok = await self._send_brevo_rest(to_email, subject, html_body, text)
             if ok:
                 logger.info(
                     "mail.sent",
@@ -68,7 +97,9 @@ class MailService:
                 )
             return ok
         except Exception as exc:
-            logger.exception("mail.send_failed", to=to_email, error=str(exc), transport=transport)
+            logger.exception(
+                "mail.send_failed", to=to_email, error=str(exc), transport=transport
+            )
             return False
 
     async def send_verification_email(
@@ -110,17 +141,11 @@ class MailService:
             to_email=to_email, subject=subject, html_body=html, text_body=text
         )
 
-    def _send_smtp(self, to_email: str, subject: str, html_body: str, text_body: str) -> bool:
-        settings = self._settings
-        login = (settings.brevo_smtp_login or settings.brevo_sender_email or "").strip()
-        password = (settings.brevo_api_key or "").strip()
-        if not login:
-            logger.error("mail.smtp_missing_login")
-            return False
-
-        sender_email = settings.brevo_sender_email.strip()
-        sender_name = settings.brevo_sender_name.strip() or "ExtractAI"
-
+    def _build_message(
+        self, to_email: str, subject: str, html_body: str, text_body: str
+    ) -> MIMEMultipart:
+        sender_email = self._sender_email()
+        sender_name = self._sender_name()
         msg = MIMEMultipart("alternative")
         msg["Subject"] = subject
         msg["From"] = formataddr((sender_name, sender_email))
@@ -128,12 +153,45 @@ class MailService:
         msg["Reply-To"] = sender_email
         msg.attach(MIMEText(text_body, "plain", "utf-8"))
         msg.attach(MIMEText(html_body, "html", "utf-8"))
+        return msg
+
+    def _send_gmail_smtp(
+        self, to_email: str, subject: str, html_body: str, text_body: str
+    ) -> bool:
+        settings = self._settings
+        login = (settings.smtp_user or settings.brevo_sender_email or "").strip()
+        password = (settings.smtp_password or "").replace(" ", "").strip()
+        host = (settings.smtp_host or "smtp.gmail.com").strip()
+        port = int(settings.smtp_port or 587)
+        sender_email = self._sender_email()
+        msg = self._build_message(to_email, subject, html_body, text_body)
+
+        with smtplib.SMTP(host, port, timeout=40) as smtp:
+            smtp.ehlo()
+            smtp.starttls()
+            smtp.ehlo()
+            smtp.login(login, password)
+            smtp.sendmail(sender_email, [to_email], msg.as_string())
+        logger.info("mail.gmail_smtp_ok", host=host, port=port, from_email=sender_email)
+        return True
+
+    def _send_brevo_smtp(
+        self, to_email: str, subject: str, html_body: str, text_body: str
+    ) -> bool:
+        settings = self._settings
+        login = (settings.brevo_smtp_login or settings.brevo_sender_email or "").strip()
+        password = (settings.brevo_api_key or "").strip()
+        if not login:
+            logger.error("mail.smtp_missing_login")
+            return False
+
+        sender_email = self._sender_email()
+        msg = self._build_message(to_email, subject, html_body, text_body)
 
         hosts = [settings.brevo_smtp_host.strip() or "smtp-relay.brevo.com"]
         if "smtp-relay.brevo.com" not in hosts:
             hosts.append("smtp-relay.brevo.com")
         ports = [int(settings.brevo_smtp_port or 587), 587, 2525]
-        # unique preserve order
         seen_ports: list[int] = []
         for p in ports:
             if p not in seen_ports:
@@ -150,21 +208,28 @@ class MailService:
                             smtp.ehlo()
                         smtp.login(login, password)
                         smtp.sendmail(sender_email, [to_email], msg.as_string())
-                    logger.info("mail.smtp_ok", host=host, port=port)
+                    logger.info("mail.brevo_smtp_ok", host=host, port=port)
                     return True
                 except Exception as exc:
                     last_error = exc
-                    logger.warning("mail.smtp_attempt_failed", host=host, port=port, error=str(exc))
+                    logger.warning(
+                        "mail.smtp_attempt_failed", host=host, port=port, error=str(exc)
+                    )
         if last_error:
             raise last_error
         return False
 
-    async def _send_rest(self, to_email: str, subject: str, html_body: str, text_body: str) -> bool:
+    async def _send_brevo_rest(
+        self, to_email: str, subject: str, html_body: str, text_body: str
+    ) -> bool:
         settings = self._settings
+        if not settings.brevo_api_key:
+            logger.warning("mail.skipped_no_api_key")
+            return False
         payload: dict[str, Any] = {
             "sender": {
-                "name": settings.brevo_sender_name.strip() or "ExtractAI",
-                "email": settings.brevo_sender_email.strip(),
+                "name": self._sender_name(),
+                "email": self._sender_email(),
             },
             "to": [{"email": to_email}],
             "subject": subject,

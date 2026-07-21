@@ -4,6 +4,20 @@ Intelligent Web Data Extraction Platform — profile any site, score strategies,
 
 > **Soft-production (Phase 1 ops):** Celery workers, Playwright in Docker, 403→browser cascade, Redis rate limits, CI, honest dashboard previews. See [`docs/SOFT_PRODUCTION.md`](docs/SOFT_PRODUCTION.md).
 
+## Live deployments
+
+| Service | URL |
+|---------|-----|
+| Frontend (Vercel) | https://extract-ai-psi.vercel.app |
+| Backend (Render) | https://extractai-11wo.onrender.com |
+| API docs | https://extractai-11wo.onrender.com/docs |
+| Health | https://extractai-11wo.onrender.com/api/v1/health |
+
+**Required env so the sites talk to each other**
+
+- **Render (API):** `CORS_ORIGINS=https://extract-ai-psi.vercel.app,http://localhost:3100` and `FRONTEND_PUBLIC_URL=https://extract-ai-psi.vercel.app`
+- **Vercel (web):** `NEXT_PUBLIC_API_URL=https://extractai-11wo.onrender.com` then **Redeploy** (this var is baked in at build time)
+
 ## Stack
 
 | Layer | Tech |
