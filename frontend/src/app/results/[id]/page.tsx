@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState, type ReactNode } from "react";
 
 import { SiteHeader } from "@/components/site-header";
+import { ExportDownloadButtons } from "@/components/export-download-buttons";
 import { api } from "@/lib/api";
 import { getAccessToken } from "@/lib/auth";
 import { getGuestKey } from "@/lib/guest";
@@ -933,11 +934,13 @@ function groupsFromReady(ready: AnyRec): { key: string; label: string; records: 
 }
 
 function ReadyMadeExport({
+  jobId,
   ready,
   normalized,
   ai,
   url,
 }: {
+  jobId: string;
   ready?: AnyRec | null;
   normalized: AnyRec;
   ai?: AIUnderstanding | null;
@@ -973,35 +976,38 @@ function ReadyMadeExport({
           <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-accent">
             Ready-made export
           </p>
-          <h2 className="mt-1 font-display text-2xl text-slate-900">Copy straight into your project</h2>
+          <h2 className="mt-1 font-display text-2xl text-slate-900">Copy or download</h2>
           <p className="mt-1 text-sm font-medium text-slate-700">
             {totalRecords > 0
               ? `${totalRecords} records across ${groups.length} groups — each entity is one complete dictionary (name, price, image, links…).`
               : "Page source + contacts packaged as one JSON object ready to paste."}
           </p>
         </div>
-        <div className="ml-auto flex flex-wrap items-center gap-2">
-          <div className="flex rounded-lg border border-slate-200 bg-white p-0.5 text-xs font-bold">
-            <button
-              type="button"
-              onClick={() => setView("cards")}
-              className={`rounded-md px-3 py-1.5 ${view === "cards" ? "bg-accent text-white" : "text-slate-700"}`}
-            >
-              Grouped
-            </button>
-            <button
-              type="button"
-              onClick={() => setView("json")}
-              className={`rounded-md px-3 py-1.5 ${view === "json" ? "bg-accent text-white" : "text-slate-700"}`}
-            >
-              JSON
-            </button>
+        <div className="ml-auto flex flex-col items-end gap-2">
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            <div className="flex rounded-lg border border-slate-200 bg-white p-0.5 text-xs font-bold">
+              <button
+                type="button"
+                onClick={() => setView("cards")}
+                className={`rounded-md px-3 py-1.5 ${view === "cards" ? "bg-accent text-white" : "text-slate-700"}`}
+              >
+                Grouped
+              </button>
+              <button
+                type="button"
+                onClick={() => setView("json")}
+                className={`rounded-md px-3 py-1.5 ${view === "json" ? "bg-accent text-white" : "text-slate-700"}`}
+              >
+                JSON
+              </button>
+            </div>
+            <CopyButton
+              text={fullJson}
+              label="Copy ready JSON"
+              className="rounded-lg bg-accent px-4 py-2 text-xs font-bold text-white hover:bg-accent-dim"
+            />
           </div>
-          <CopyButton
-            text={fullJson}
-            label="Copy ready JSON"
-            className="rounded-lg bg-accent px-4 py-2 text-xs font-bold text-white hover:bg-accent-dim"
-          />
+          <ExportDownloadButtons jobId={jobId} />
         </div>
       </div>
 
@@ -1198,6 +1204,7 @@ export default function ResultsPage() {
 
             <div className="mt-10">
               <ReadyMadeExport
+                jobId={jobId}
                 ready={data.ready as AnyRec | null | undefined}
                 normalized={normalized}
                 ai={data.ai_understanding}

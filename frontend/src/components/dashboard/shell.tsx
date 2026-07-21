@@ -67,7 +67,7 @@ const NAV: NavItem[] = [
     ),
   },
   {
-    label: "Exports (preview)",
+    label: "Exports",
     href: "/dashboard/exports",
     icon: (
       <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
