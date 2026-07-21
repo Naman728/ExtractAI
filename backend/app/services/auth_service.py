@@ -74,7 +74,8 @@ class AuthService:
             # Soft-fail message — account exists but sign-in stays locked until mail works + verify
             email_meta["message"] = (
                 "Account created, but we could not send the verification email. "
-                "Confirm Brevo sender/API key, then use Resend on the sign-in page."
+                "On the server set SMTP_USER + SMTP_PASSWORD (Gmail app password), "
+                "then use Resend on the sign-in page."
             )
         logger.info("auth.register", user_id=str(user.id), email_sent=email_meta.get("email_sent"))
         # No tokens until email is verified via Gmail link
@@ -165,7 +166,7 @@ class AuthService:
             "message": (
                 "Verification email sent — check your Gmail inbox (and Spam)."
                 if meta.get("email_sent")
-                else "Could not send email. Check Brevo API key / verified sender."
+                else "Could not send email. Set SMTP_USER + SMTP_PASSWORD on the API server."
             ),
         }
         if meta.get("verification_url"):
@@ -209,7 +210,7 @@ class AuthService:
                 "We emailed a one-time verification link to your Gmail. "
                 "Open it, then sign in. Also check Spam / Promotions."
                 if sent
-                else "Could not send verification email. Check Brevo settings."
+                else "Could not send verification email. Set SMTP_USER + SMTP_PASSWORD on the API."
             ),
         }
         # Local/dev: always expose the link so signup works when Gmail rate-limits

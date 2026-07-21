@@ -99,7 +99,8 @@ export default function RegisterPage() {
               <p className="mt-3 text-sm text-slate-600 dark:text-slate-400">{pendingVerify.message}</p>
               {!pendingVerify.emailSent ? (
                 <p className="mt-3 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900 dark:border-amber-900/50 dark:bg-amber-950/40 dark:text-amber-100">
-                  Mail delivery failed on our side. Fix Brevo settings, then resend below.
+                  Mail delivery failed on our side. Add Gmail SMTP settings on the API
+                  (Render), redeploy, then resend below.
                 </p>
               ) : (
                 <p className="mt-3 text-xs text-slate-500">Also check Spam / Promotions.</p>

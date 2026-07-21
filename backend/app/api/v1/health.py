@@ -7,6 +7,7 @@ from sqlalchemy import text
 from app.api.deps import AppSettings, DbSession
 from app.engines.versions import current_version_pins
 from app.schemas import HealthResponse, ReadyResponse
+from app.services.mail_service import MailService
 
 router = APIRouter(tags=["health"])
 
@@ -19,6 +20,20 @@ async def health(settings: AppSettings) -> HealthResponse:
         app=settings.app_name,
         version=pins.pipeline_version,
     )
+
+
+@router.get("/health/mail")
+async def health_mail(settings: AppSettings) -> dict:
+    """Safe mail config probe (no secrets) — used to debug signup delivery."""
+    mail = MailService(settings)
+    return {
+        "enabled": mail.enabled,
+        "transport": mail._transport(),
+        "sender_configured": bool(mail._sender_email()),
+        "gmail_smtp_configured": mail._gmail_ready(),
+        "brevo_configured": bool((settings.brevo_api_key or "").strip()),
+        "frontend_public_url": settings.frontend_public_url,
+    }
 
 
 @router.get("/ready", response_model=ReadyResponse)
